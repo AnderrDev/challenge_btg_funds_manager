@@ -5,7 +5,7 @@
       "name": "FPV_BTG_PACTUAL_RECAUDADORA",
       "minimumAmount": 75000,
       "category": "fpv",
-      "isSubscribed": true,
+      "isSubscribed": false,
       "description": "Fondo de pensiones voluntarias orientado a la recaudación eficiente de aportes, con estrategia diversificada en renta fija y variable colombiana.",
       "managedBy": "BTG Pactual Colombia",
       "returns": 8.5,
@@ -18,7 +18,7 @@
       "name": "FPV_BTG_PACTUAL_ECOPETROL",
       "minimumAmount": 125000,
       "category": "fpv",
-      "isSubscribed": true,
+      "isSubscribed": false,
       "description": "Fondo de pensiones voluntarias con exposición significativa a Ecopetrol y el sector energético colombiano. Ideal para inversores con perfil de riesgo moderado-alto.",
       "managedBy": "BTG Pactual Colombia",
       "returns": 12.3,
@@ -300,12 +300,66 @@
       "amount": 125000,
       "date": "2026-03-13T15:11:10.452",
       "notificationMethod": "sms"
+    },
+    {
+      "id": "1773433051469",
+      "fundId": 3,
+      "fundName": "DEUDAPRIVADA",
+      "type": "subscription",
+      "amount": 50000,
+      "date": "2026-03-13T15:17:31.469",
+      "notificationMethod": "sms"
+    },
+    {
+      "id": "1773433210277",
+      "fundId": 4,
+      "fundName": "FDO-ACCIONES",
+      "type": "subscription",
+      "amount": 250000,
+      "date": "2026-03-13T15:20:10.277",
+      "notificationMethod": "sms"
+    },
+    {
+      "id": "1773433214586",
+      "fundId": 4,
+      "fundName": "FDO-ACCIONES",
+      "type": "cancellation",
+      "amount": 250000,
+      "date": "2026-03-13T15:20:14.586",
+      "notificationMethod": null
+    },
+    {
+      "id": "1773433218088",
+      "fundId": 3,
+      "fundName": "DEUDAPRIVADA",
+      "type": "cancellation",
+      "amount": 50000,
+      "date": "2026-03-13T15:20:18.088",
+      "notificationMethod": null
+    },
+    {
+      "id": "1773433218938",
+      "fundId": 2,
+      "fundName": "FPV_BTG_PACTUAL_ECOPETROL",
+      "type": "cancellation",
+      "amount": 125000,
+      "date": "2026-03-13T15:20:18.938",
+      "notificationMethod": null
+    },
+    {
+      "id": "1773433220121",
+      "fundId": 1,
+      "fundName": "FPV_BTG_PACTUAL_RECAUDADORA",
+      "type": "cancellation",
+      "amount": 75000,
+      "date": "2026-03-13T15:20:20.121",
+      "notificationMethod": null
     }
   ],
   "users": [
     {
       "id": 1,
-      "balance": 300000
+      "balance": 500000
     }
   ]
 }

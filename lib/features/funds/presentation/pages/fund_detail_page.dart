@@ -11,6 +11,7 @@ import '../bloc/fund_detail_state.dart';
 import '../bloc/funds_bloc.dart';
 import '../bloc/funds_event.dart';
 import '../widgets/subscribe_dialog.dart';
+import '../widgets/fund_detail_skeleton.dart';
 
 /// Screen displaying complete details for a specific fund.
 class FundDetailPage extends StatelessWidget {
@@ -36,7 +37,7 @@ class FundDetailPage extends StatelessWidget {
         body: BlocBuilder<FundDetailBloc, FundDetailState>(
           builder: (context, state) {
             if (state is FundDetailLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const FundDetailSkeleton();
             }
 
             if (state is FundDetailError) {

@@ -6,7 +6,9 @@ import '../bloc/funds_bloc.dart';
 import '../bloc/funds_event.dart';
 import '../bloc/funds_state.dart';
 import '../widgets/fund_card.dart';
+import '../widgets/fund_card_skeleton.dart';
 import '../widgets/subscribe_dialog.dart';
+import '../../../../core/widgets/skeleton.dart';
 
 /// Main page displaying available funds and current balance.
 ///
@@ -64,7 +66,7 @@ class _InitialView extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<FundsBloc>().add(const LoadFunds());
     });
-    return const Center(child: CircularProgressIndicator());
+    return const _LoadingView();
   }
 }
 
@@ -73,15 +75,37 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 16),
-          Text('Cargando fondos...'),
-        ],
-      ),
+    return CustomScrollView(
+      slivers: [
+        // Balance skeleton
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Skeleton(
+              height: 120,
+              borderRadius: 20,
+              width: double.infinity,
+            ),
+          ),
+        ),
+        // Section title skeleton
+        const SliverPadding(
+          padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+          sliver: SliverToBoxAdapter(
+            child: Skeleton(width: 200, height: 28),
+          ),
+        ),
+        // List skeleton
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4),
+              child: FundCardSkeleton(),
+            ),
+            childCount: 4,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -6,6 +6,7 @@ import '../bloc/transactions_event.dart';
 import '../bloc/transactions_state.dart';
 import '../../domain/entities/transaction.dart';
 import '../widgets/transaction_tile.dart';
+import '../widgets/transaction_tile_skeleton.dart';
 
 /// Page displaying the transaction history.
 ///
@@ -50,15 +51,10 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 16),
-          Text('Cargando transacciones...'),
-        ],
-      ),
+    return ListView.builder(
+      padding: const EdgeInsets.all(8),
+      itemCount: 8,
+      itemBuilder: (context, index) => const TransactionTileSkeleton(),
     );
   }
 }
