@@ -3,11 +3,13 @@
 BTG Funds Manager es una aplicación móvil moderna y elegante diseñada para la gestión de fondos de inversión (FIC y FPV). Permite a los usuarios visualizar su saldo, explorar fondos disponibles, suscribirse a nuevos productos y gestionar sus suscripciones activas.
 
 ## 📱 Demo
-Aquí puedes agregar un video o un GIF de la aplicación en funcionamiento:
-<!-- Si subes el video a GitHub, puedes usar el siguiente tag -->
-<!-- <video src="URL_DEL_VIDEO" width="300" /> -->
-<!-- O un GIF directamente -->
-<!-- ![App Demo](URL_DEL_GIF) -->
+Aquí puedes ver la aplicación en funcionamiento:
+
+<video src="assets/videos/demo.mp4" width="320" controls>
+  Tu navegador no soporta el tag de video.
+</video>
+
+> **Nota:** Si no ves el video, puedes encontrarlo en la carpeta [assets/videos](assets/videos/demo.mp4).
 
 ## Características Principales
 
