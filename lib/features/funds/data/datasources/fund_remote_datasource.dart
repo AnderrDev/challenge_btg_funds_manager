@@ -1,55 +1,65 @@
-import 'package:dio/dio.dart';
+import 'package:btg_funds_manager/core/network/http_client.dart';
 import 'package:btg_funds_manager/core/constants/app_constants.dart';
-import 'package:btg_funds_manager/features/funds/domain/entities/fund.dart';
+import 'package:btg_funds_manager/features/funds/data/models/fund_model.dart';
 
-/// Remote data source for funds — communicates with json-server via Dio.
-class FundRemoteDataSource {
-  const FundRemoteDataSource({required this.dio});
+/// Remote data source interface for funds.
+abstract class FundRemoteDataSource {
+  Future<List<FundModel>> getFunds();
+  Future<FundModel> getFundById(int id);
+  Future<FundModel> subscribeTo(int fundId);
+  Future<FundModel> cancelSubscription(int fundId);
+  Future<double> getBalance();
+  Future<void> updateBalance(double newBalance);
+}
 
-  final Dio dio;
+/// Remote data source implementation for funds — communicates with API via [HttpClient].
+class FundRemoteDataSourceImpl implements FundRemoteDataSource {
+  const FundRemoteDataSourceImpl({required this.client});
 
-  /// Fetches all funds from the API.
-  Future<List<Fund>> getFunds() async {
-    final response = await dio.get('${AppConstants.baseUrl}/funds');
+  final HttpClient client;
+
+  @override
+  Future<List<FundModel>> getFunds() async {
+    final response = await client.get('${AppConstants.baseUrl}/funds');
     final List<dynamic> data = response.data as List<dynamic>;
     return data
-        .map((json) => Fund.fromJson(json as Map<String, dynamic>))
+        .map((json) => FundModel.fromJson(json as Map<String, dynamic>))
         .toList();
   }
 
-  /// Fetches a single fund by [id] from the API.
-  Future<Fund> getFundById(int id) async {
-    final response = await dio.get('${AppConstants.baseUrl}/funds/$id');
-    return Fund.fromJson(response.data as Map<String, dynamic>);
+  @override
+  Future<FundModel> getFundById(int id) async {
+    final response = await client.get('${AppConstants.baseUrl}/funds/$id');
+    return FundModel.fromJson(response.data as Map<String, dynamic>);
   }
 
-  /// Marks a fund as subscribed via PATCH.
-  Future<Fund> subscribeTo(int fundId) async {
-    final response = await dio.patch(
+  @override
+  Future<FundModel> subscribeTo(int fundId) async {
+    final response = await client.patch(
       '${AppConstants.baseUrl}/funds/$fundId',
       data: {'isSubscribed': true},
     );
-    return Fund.fromJson(response.data as Map<String, dynamic>);
+    return FundModel.fromJson(response.data as Map<String, dynamic>);
   }
 
-  /// Marks a fund as unsubscribed via PATCH.
-  Future<Fund> cancelSubscription(int fundId) async {
-    final response = await dio.patch(
+  @override
+  Future<FundModel> cancelSubscription(int fundId) async {
+    final response = await client.patch(
       '${AppConstants.baseUrl}/funds/$fundId',
       data: {'isSubscribed': false},
     );
-    return Fund.fromJson(response.data as Map<String, dynamic>);
+    return FundModel.fromJson(response.data as Map<String, dynamic>);
   }
 
-  /// Returns current user balance from the API.
+  @override
   Future<double> getBalance() async {
-    final response = await dio.get('${AppConstants.baseUrl}/users/1');
+    final response = await client.get('${AppConstants.baseUrl}/users/1');
     return (response.data['balance'] as num).toDouble();
   }
 
-  /// Updates user balance via PATCH.
+  @override
   Future<void> updateBalance(double newBalance) async {
-    await dio.patch(
+    await client.patch(
       '${AppConstants.baseUrl}/users/1',
       data: {'balance': newBalance},
     );

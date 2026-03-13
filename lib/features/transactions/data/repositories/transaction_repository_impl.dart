@@ -2,6 +2,7 @@ import 'package:btg_funds_manager/core/utils/result.dart';
 import 'package:btg_funds_manager/features/transactions/domain/entities/transaction.dart';
 import 'package:btg_funds_manager/features/transactions/domain/repositories/transaction_repository.dart';
 import 'package:btg_funds_manager/features/transactions/data/datasources/transaction_remote_datasource.dart';
+import 'package:btg_funds_manager/features/transactions/data/models/transaction_model.dart';
 import 'package:btg_funds_manager/features/transactions/data/datasources/transaction_local_cache.dart';
 
 /// Concrete implementation of [TransactionRepository].
@@ -21,7 +22,9 @@ class TransactionRepositoryImpl implements TransactionRepository {
     try {
       final transactions = await remoteDataSource.getTransactionHistory();
       // Update local cache on success
-      await localCache.cacheTransactions(transactions);
+      await localCache.cacheTransactions(
+        transactions.map((t) => TransactionModel.fromEntity(t)).toList(),
+      );
       return Success(transactions);
     } catch (e) {
       // Fallback to cached data
@@ -37,6 +40,8 @@ class TransactionRepositoryImpl implements TransactionRepository {
 
   @override
   Future<void> addTransaction(Transaction transaction) async {
-    await remoteDataSource.addTransaction(transaction);
+    await remoteDataSource.addTransaction(
+      TransactionModel.fromEntity(transaction),
+    );
   }
 }

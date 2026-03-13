@@ -1,28 +1,34 @@
-import 'package:dio/dio.dart';
+import 'package:btg_funds_manager/core/network/http_client.dart';
 import 'package:btg_funds_manager/core/constants/app_constants.dart';
-import 'package:btg_funds_manager/features/transactions/domain/entities/transaction.dart';
+import 'package:btg_funds_manager/features/transactions/data/models/transaction_model.dart';
 
-/// Remote data source for transactions — communicates with json-server via Dio.
-class TransactionRemoteDataSource {
-  const TransactionRemoteDataSource({required this.dio});
+/// Remote data source interface for transactions.
+abstract class TransactionRemoteDataSource {
+  Future<List<TransactionModel>> getTransactionHistory();
+  Future<void> addTransaction(TransactionModel transaction);
+}
 
-  final Dio dio;
+/// Remote data source implementation for transactions — communicates with API via [HttpClient].
+class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
+  const TransactionRemoteDataSourceImpl({required this.client});
 
-  /// Fetches all transactions sorted by date descending.
-  Future<List<Transaction>> getTransactionHistory() async {
-    final response = await dio.get(
+  final HttpClient client;
+
+  @override
+  Future<List<TransactionModel>> getTransactionHistory() async {
+    final response = await client.get(
       '${AppConstants.baseUrl}/transactions',
       queryParameters: {'_sort': 'date', '_order': 'desc'},
     );
     final List<dynamic> data = response.data as List<dynamic>;
     return data
-        .map((json) => Transaction.fromJson(json as Map<String, dynamic>))
+        .map((json) => TransactionModel.fromJson(json as Map<String, dynamic>))
         .toList();
   }
 
-  /// Posts a new transaction to the API.
-  Future<void> addTransaction(Transaction transaction) async {
-    await dio.post(
+  @override
+  Future<void> addTransaction(TransactionModel transaction) async {
+    await client.post(
       '${AppConstants.baseUrl}/transactions',
       data: transaction.toJson(),
     );

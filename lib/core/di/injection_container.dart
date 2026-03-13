@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/network/dio_http_client_adapter.dart';
+import '../../core/network/http_client.dart';
 import '../../features/funds/data/datasources/fund_local_cache.dart';
 import '../../features/funds/data/datasources/fund_remote_datasource.dart';
 import '../../features/funds/data/repositories/fund_repository_impl.dart';
@@ -32,18 +34,23 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => Dio());
 
+  // ── Network ─────────────────────────────────────────────────────
+  sl.registerLazySingleton<HttpClient>(
+    () => DioHttpClientAdapter(dio: sl()),
+  );
+
   // ── Data Sources & Caches ───────────────────────────────────────
   sl.registerLazySingleton<FundRemoteDataSource>(
-    () => FundRemoteDataSource(dio: sl()),
+    () => FundRemoteDataSourceImpl(client: sl()),
   );
   sl.registerLazySingleton<FundLocalCache>(
-    () => FundLocalCache(prefs: sl()),
+    () => FundLocalCacheImpl(prefs: sl()),
   );
   sl.registerLazySingleton<TransactionRemoteDataSource>(
-    () => TransactionRemoteDataSource(dio: sl()),
+    () => TransactionRemoteDataSourceImpl(client: sl()),
   );
   sl.registerLazySingleton<TransactionLocalCache>(
-    () => TransactionLocalCache(prefs: sl()),
+    () => TransactionLocalCacheImpl(prefs: sl()),
   );
 
   // ── Repositories ────────────────────────────────────────────────

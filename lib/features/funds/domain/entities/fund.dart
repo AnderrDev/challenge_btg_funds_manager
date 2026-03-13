@@ -37,42 +37,6 @@ class Fund extends Equatable {
   final String currency;
   final DateTime? createdAt;
 
-  /// Creates a [Fund] from a JSON map (API response).
-  factory Fund.fromJson(Map<String, dynamic> json) {
-    return Fund(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      minimumAmount: (json['minimumAmount'] as num).toDouble(),
-      category: _categoryFromString(json['category'] as String),
-      isSubscribed: json['isSubscribed'] as bool? ?? false,
-      description: json['description'] as String? ?? '',
-      managedBy: json['managedBy'] as String? ?? '',
-      returns: (json['returns'] as num?)?.toDouble() ?? 0.0,
-      riskLevel: _riskLevelFromString(json['riskLevel'] as String?),
-      currency: json['currency'] as String? ?? 'COP',
-      createdAt: json['createdAt'] != null
-          ? DateTime.tryParse(json['createdAt'] as String)
-          : null,
-    );
-  }
-
-  /// Converts this [Fund] to a JSON map.
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'minimumAmount': minimumAmount,
-      'category': category == FundCategory.fpv ? 'fpv' : 'fic',
-      'isSubscribed': isSubscribed,
-      'description': description,
-      'managedBy': managedBy,
-      'returns': returns,
-      'riskLevel': riskLevel.name,
-      'currency': currency,
-      'createdAt': createdAt?.toIso8601String(),
-    };
-  }
-
   /// Creates a copy with the given fields replaced.
   Fund copyWith({
     int? id,
@@ -116,19 +80,4 @@ class Fund extends Equatable {
         currency,
         createdAt,
       ];
-
-  static FundCategory _categoryFromString(String value) {
-    return value == 'fpv' ? FundCategory.fpv : FundCategory.fic;
-  }
-
-  static RiskLevel _riskLevelFromString(String? value) {
-    switch (value) {
-      case 'low':
-        return RiskLevel.low;
-      case 'high':
-        return RiskLevel.high;
-      default:
-        return RiskLevel.moderate;
-    }
-  }
 }

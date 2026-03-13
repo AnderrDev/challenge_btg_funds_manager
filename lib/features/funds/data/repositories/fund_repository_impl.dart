@@ -2,6 +2,7 @@ import 'package:btg_funds_manager/core/utils/result.dart';
 import 'package:btg_funds_manager/features/transactions/domain/entities/transaction.dart';
 import 'package:btg_funds_manager/features/funds/data/datasources/fund_remote_datasource.dart';
 import 'package:btg_funds_manager/features/funds/data/datasources/fund_local_cache.dart';
+import 'package:btg_funds_manager/features/funds/data/models/fund_model.dart';
 import 'package:btg_funds_manager/features/funds/domain/entities/fund.dart';
 import 'package:btg_funds_manager/features/funds/domain/repositories/fund_repository.dart';
 
@@ -25,7 +26,9 @@ class FundRepositoryImpl implements FundRepository {
     try {
       final funds = await remoteDataSource.getFunds();
       // Update local cache on success
-      await localCache.cacheFunds(funds);
+      await localCache.cacheFunds(
+        funds.map((f) => FundModel.fromEntity(f)).toList(),
+      );
       return Success(funds);
     } catch (e) {
       // Fallback to cached data

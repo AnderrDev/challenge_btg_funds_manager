@@ -1,38 +1,44 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:btg_funds_manager/features/funds/domain/entities/fund.dart';
+import '../models/fund_model.dart';
 
-/// Local cache for funds using SharedPreferences.
-///
-/// Stores funds list and user balance as JSON strings for offline access
-/// and fast startup before API data arrives.
-class FundLocalCache {
-  const FundLocalCache({required this.prefs});
+/// Local cache interface for funds.
+abstract class FundLocalCache {
+  Future<void> cacheFunds(List<FundModel> funds);
+  List<FundModel> getCachedFunds();
+  FundModel? getCachedFundById(int id);
+  Future<void> cacheBalance(double balance);
+  double? getCachedBalance();
+}
+
+/// Local cache implementation for funds using SharedPreferences.
+class FundLocalCacheImpl implements FundLocalCache {
+  const FundLocalCacheImpl({required this.prefs});
 
   final SharedPreferences prefs;
 
   static const _fundsKey = 'cached_funds';
   static const _balanceKey = 'cached_balance';
 
-  /// Caches the list of funds.
-  Future<void> cacheFunds(List<Fund> funds) async {
+  @override
+  Future<void> cacheFunds(List<FundModel> funds) async {
     final jsonList = funds.map((f) => f.toJson()).toList();
     await prefs.setString(_fundsKey, jsonEncode(jsonList));
   }
 
-  /// Returns cached funds, or empty list if none cached.
-  List<Fund> getCachedFunds() {
+  @override
+  List<FundModel> getCachedFunds() {
     final jsonString = prefs.getString(_fundsKey);
     if (jsonString == null) return [];
 
     final List<dynamic> jsonList = jsonDecode(jsonString) as List<dynamic>;
     return jsonList
-        .map((json) => Fund.fromJson(json as Map<String, dynamic>))
+        .map((json) => FundModel.fromJson(json as Map<String, dynamic>))
         .toList();
   }
 
-  /// Returns a cached fund by [id], or null if not found.
-  Fund? getCachedFundById(int id) {
+  @override
+  FundModel? getCachedFundById(int id) {
     final funds = getCachedFunds();
     try {
       return funds.firstWhere((f) => f.id == id);
@@ -41,12 +47,12 @@ class FundLocalCache {
     }
   }
 
-  /// Caches the user's balance.
+  @override
   Future<void> cacheBalance(double balance) async {
     await prefs.setDouble(_balanceKey, balance);
   }
 
-  /// Returns cached balance, or null if none cached.
+  @override
   double? getCachedBalance() {
     return prefs.getDouble(_balanceKey);
   }
