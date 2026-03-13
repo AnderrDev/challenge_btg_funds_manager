@@ -1,6 +1,13 @@
-# BTG Funds Manager 
+# BTG Funds Manager 💼
 
 BTG Funds Manager es una aplicación móvil moderna y elegante diseñada para la gestión de fondos de inversión (FIC y FPV). Permite a los usuarios visualizar su saldo, explorar fondos disponibles, suscribirse a nuevos productos y gestionar sus suscripciones activas.
+
+## 📱 Demo
+Aquí puedes agregar un video o un GIF de la aplicación en funcionamiento:
+<!-- Si subes el video a GitHub, puedes usar el siguiente tag -->
+<!-- <video src="URL_DEL_VIDEO" width="300" /> -->
+<!-- O un GIF directamente -->
+<!-- ![App Demo](URL_DEL_GIF) -->
 
 ## Características Principales
 
@@ -39,8 +46,8 @@ El proyecto sigue los principios de **Clean Architecture** y **SOLID** para gara
 
 ### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/tu-usuario/btg_funds_manager.git
-cd btg_funds_manager
+git clone https://github.com/AnderrDev/challenge_btg_funds_manager.git
+cd challenge_btg_funds_manager
 ```
 
 ### 2. Configurar el Backend
