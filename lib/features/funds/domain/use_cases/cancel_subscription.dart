@@ -1,6 +1,6 @@
 import 'package:btg_funds_manager/core/utils/result.dart';
 import 'package:btg_funds_manager/features/transactions/domain/entities/transaction.dart';
-import 'package:btg_funds_manager/features/transactions/data/datasources/transaction_local_datasource.dart';
+import 'package:btg_funds_manager/features/transactions/domain/repositories/transaction_repository.dart';
 import 'package:btg_funds_manager/features/funds/domain/entities/fund.dart';
 import 'package:btg_funds_manager/features/funds/domain/repositories/fund_repository.dart';
 
@@ -12,11 +12,11 @@ import 'package:btg_funds_manager/features/funds/domain/repositories/fund_reposi
 class CancelSubscription {
   const CancelSubscription({
     required this.fundRepository,
-    required this.transactionDataSource,
+    required this.transactionRepository,
   });
 
   final FundRepository fundRepository;
-  final TransactionLocalDataSource transactionDataSource;
+  final TransactionRepository transactionRepository;
 
   /// Executes the cancellation.
   Future<Result<Fund>> call({
@@ -42,7 +42,7 @@ class CancelSubscription {
           amount: fundMinimumAmount,
           date: DateTime.now(),
         );
-        await transactionDataSource.addTransaction(transaction);
+        await transactionRepository.addTransaction(transaction);
 
         return Success(fund);
 

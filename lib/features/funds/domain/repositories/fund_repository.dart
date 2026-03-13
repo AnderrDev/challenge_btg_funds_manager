@@ -10,6 +10,9 @@ abstract class FundRepository {
   /// Returns the list of all available funds.
   Future<Result<List<Fund>>> getFunds();
 
+  /// Returns a single fund by [id] with full details.
+  Future<Result<Fund>> getFundById(int id);
+
   /// Subscribes the user to a fund by [fundId].
   ///
   /// The [method] determines which notification channel is used.

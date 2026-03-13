@@ -1,0 +1,74 @@
+{
+  "funds": [
+    {
+      "id": 1,
+      "name": "FPV_BTG_PACTUAL_RECAUDADORA",
+      "minimumAmount": 75000,
+      "category": "fpv",
+      "isSubscribed": false,
+      "description": "Fondo de pensiones voluntarias orientado a la recaudación eficiente de aportes, con estrategia diversificada en renta fija y variable colombiana.",
+      "managedBy": "BTG Pactual Colombia",
+      "returns": 8.5,
+      "riskLevel": "moderate",
+      "currency": "COP",
+      "createdAt": "2020-03-15"
+    },
+    {
+      "id": 2,
+      "name": "FPV_BTG_PACTUAL_ECOPETROL",
+      "minimumAmount": 125000,
+      "category": "fpv",
+      "isSubscribed": false,
+      "description": "Fondo de pensiones voluntarias con exposición significativa a Ecopetrol y el sector energético colombiano. Ideal para inversores con perfil de riesgo moderado-alto.",
+      "managedBy": "BTG Pactual Colombia",
+      "returns": 12.3,
+      "riskLevel": "high",
+      "currency": "COP",
+      "createdAt": "2019-07-22"
+    },
+    {
+      "id": 3,
+      "name": "DEUDAPRIVADA",
+      "minimumAmount": 50000,
+      "category": "fic",
+      "isSubscribed": false,
+      "description": "Fondo de inversión colectiva enfocado en instrumentos de deuda privada con grado de inversión. Ofrece rendimientos estables con bajo riesgo crediticio.",
+      "managedBy": "BTG Pactual Asset Management",
+      "returns": 6.2,
+      "riskLevel": "low",
+      "currency": "COP",
+      "createdAt": "2018-11-10"
+    },
+    {
+      "id": 4,
+      "name": "FDO-ACCIONES",
+      "minimumAmount": 250000,
+      "category": "fic",
+      "isSubscribed": false,
+      "description": "Fondo de inversión colectiva especializado en acciones de alta capitalización del mercado colombiano y latinoamericano. Mayor potencial de retorno con mayor volatilidad.",
+      "managedBy": "BTG Pactual Asset Management",
+      "returns": 15.8,
+      "riskLevel": "high",
+      "currency": "COP",
+      "createdAt": "2017-05-03"
+    },
+    {
+      "id": 5,
+      "name": "FPV_BTG_PACTUAL_DINAMICA",
+      "minimumAmount": 100000,
+      "category": "fpv",
+      "isSubscribed": false,
+      "description": "Fondo de pensiones voluntarias con gestión dinámica que ajusta la composición del portafolio según las condiciones del mercado. Equilibrio entre renta fija y variable.",
+      "managedBy": "BTG Pactual Colombia",
+      "returns": 10.1,
+      "riskLevel": "moderate",
+      "currency": "COP",
+      "createdAt": "2021-01-18"
+    }
+  ],
+  "transactions": [],
+  "user": {
+    "id": 1,
+    "balance": 500000
+  }
+}

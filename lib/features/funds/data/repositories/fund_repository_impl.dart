@@ -1,25 +1,54 @@
 import 'package:btg_funds_manager/core/utils/result.dart';
 import 'package:btg_funds_manager/features/transactions/domain/entities/transaction.dart';
-import 'package:btg_funds_manager/features/funds/data/datasources/fund_local_datasource.dart';
+import 'package:btg_funds_manager/features/funds/data/datasources/fund_remote_datasource.dart';
+import 'package:btg_funds_manager/features/funds/data/datasources/fund_local_cache.dart';
 import 'package:btg_funds_manager/features/funds/domain/entities/fund.dart';
 import 'package:btg_funds_manager/features/funds/domain/repositories/fund_repository.dart';
 
 /// Concrete implementation of [FundRepository].
 ///
-/// Bridges the domain layer with the local data source.
-/// Wraps data source calls in [Result] for functional error handling.
+/// Uses a remote-first strategy with local cache fallback:
+/// 1. Try to fetch from json-server API (via Dio)
+/// 2. On success, update SharedPreferences cache
+/// 3. On failure, serve data from local cache
 class FundRepositoryImpl implements FundRepository {
-  const FundRepositoryImpl({required this.dataSource});
+  const FundRepositoryImpl({
+    required this.remoteDataSource,
+    required this.localCache,
+  });
 
-  final FundLocalDataSource dataSource;
+  final FundRemoteDataSource remoteDataSource;
+  final FundLocalCache localCache;
 
   @override
   Future<Result<List<Fund>>> getFunds() async {
     try {
-      final funds = await dataSource.getFunds();
+      final funds = await remoteDataSource.getFunds();
+      // Update local cache on success
+      await localCache.cacheFunds(funds);
       return Success(funds);
     } catch (e) {
+      // Fallback to cached data
+      final cachedFunds = localCache.getCachedFunds();
+      if (cachedFunds.isNotEmpty) {
+        return Success(cachedFunds);
+      }
       return Failure('Error al cargar los fondos: ${e.toString()}');
+    }
+  }
+
+  @override
+  Future<Result<Fund>> getFundById(int id) async {
+    try {
+      final fund = await remoteDataSource.getFundById(id);
+      return Success(fund);
+    } catch (e) {
+      // Fallback to cached data
+      final cachedFund = localCache.getCachedFundById(id);
+      if (cachedFund != null) {
+        return Success(cachedFund);
+      }
+      return Failure('Error al cargar el fondo: ${e.toString()}');
     }
   }
 
@@ -30,7 +59,7 @@ class FundRepositoryImpl implements FundRepository {
     required double currentBalance,
   }) async {
     try {
-      final fund = await dataSource.subscribeTo(fundId);
+      final fund = await remoteDataSource.subscribeTo(fundId);
       return Success(fund);
     } catch (e) {
       return Failure('Error al suscribirse al fondo: ${e.toString()}');
@@ -40,7 +69,7 @@ class FundRepositoryImpl implements FundRepository {
   @override
   Future<Result<Fund>> cancelSubscription({required int fundId}) async {
     try {
-      final fund = await dataSource.cancelSubscription(fundId);
+      final fund = await remoteDataSource.cancelSubscription(fundId);
       return Success(fund);
     } catch (e) {
       return Failure('Error al cancelar la suscripción: ${e.toString()}');
@@ -48,10 +77,24 @@ class FundRepositoryImpl implements FundRepository {
   }
 
   @override
-  Future<double> getBalance() async => dataSource.getBalance();
+  Future<double> getBalance() async {
+    try {
+      final balance = await remoteDataSource.getBalance();
+      await localCache.cacheBalance(balance);
+      return balance;
+    } catch (_) {
+      return localCache.getCachedBalance() ?? 0.0;
+    }
+  }
 
   @override
   Future<void> updateBalance(double newBalance) async {
-    dataSource.updateBalance(newBalance);
+    try {
+      await remoteDataSource.updateBalance(newBalance);
+      await localCache.cacheBalance(newBalance);
+    } catch (_) {
+      // Cache locally even if remote fails
+      await localCache.cacheBalance(newBalance);
+    }
   }
 }
