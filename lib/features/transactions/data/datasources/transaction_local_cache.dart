@@ -24,12 +24,17 @@ class TransactionLocalCacheImpl implements TransactionLocalCache {
 
   @override
   List<TransactionModel> getCachedTransactions() {
-    final jsonString = prefs.getString(_transactionsKey);
-    if (jsonString == null) return [];
+    try {
+      final jsonString = prefs.getString(_transactionsKey);
+      if (jsonString == null) return [];
 
-    final List<dynamic> jsonList = jsonDecode(jsonString) as List<dynamic>;
-    return jsonList
-        .map((json) => TransactionModel.fromJson(json as Map<String, dynamic>))
-        .toList();
+      final List<dynamic> jsonList = jsonDecode(jsonString) as List<dynamic>;
+      return jsonList
+          .map((json) => TransactionModel.fromJson(json as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      print('DEBUG: Error reading cached transactions: $e');
+      return [];
+    }
   }
 }

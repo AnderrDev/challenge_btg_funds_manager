@@ -32,7 +32,13 @@ Future<void> initDependencies() async {
   // ── External ────────────────────────────────────────────────────
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => Dio());
+  sl.registerLazySingleton<Dio>(() => Dio(
+        BaseOptions(
+          connectTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 10),
+          sendTimeout: const Duration(seconds: 10),
+        ),
+      ));
 
   // ── Network ─────────────────────────────────────────────────────
   sl.registerLazySingleton<HttpClient>(

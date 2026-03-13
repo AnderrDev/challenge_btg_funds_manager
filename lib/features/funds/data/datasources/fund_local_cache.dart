@@ -28,13 +28,18 @@ class FundLocalCacheImpl implements FundLocalCache {
 
   @override
   List<FundModel> getCachedFunds() {
-    final jsonString = prefs.getString(_fundsKey);
-    if (jsonString == null) return [];
+    try {
+      final jsonString = prefs.getString(_fundsKey);
+      if (jsonString == null) return [];
 
-    final List<dynamic> jsonList = jsonDecode(jsonString) as List<dynamic>;
-    return jsonList
-        .map((json) => FundModel.fromJson(json as Map<String, dynamic>))
-        .toList();
+      final List<dynamic> jsonList = jsonDecode(jsonString) as List<dynamic>;
+      return jsonList
+          .map((json) => FundModel.fromJson(json as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      print('DEBUG: Error reading cached funds: $e');
+      return [];
+    }
   }
 
   @override

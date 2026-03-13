@@ -69,3 +69,4 @@ Para ejecutar los tests unitarios y de integración:
 flutter test
 ```
 
+Este repositorio no corresponde a código oficial de BTG Pactual, únicamente corresponde a una prueba técnica personal.
