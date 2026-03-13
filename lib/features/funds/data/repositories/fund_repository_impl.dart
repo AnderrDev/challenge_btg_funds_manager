@@ -92,8 +92,9 @@ class FundRepositoryImpl implements FundRepository {
     try {
       await remoteDataSource.updateBalance(newBalance);
       await localCache.cacheBalance(newBalance);
-    } catch (_) {
-      // Cache locally even if remote fails
+    } catch (e) {
+      // Still cache locally but log the actual error for debugging
+      print('DEBUG: Error updating balance on server: $e');
       await localCache.cacheBalance(newBalance);
     }
   }

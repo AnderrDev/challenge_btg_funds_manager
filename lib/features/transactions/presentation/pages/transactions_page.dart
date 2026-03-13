@@ -4,13 +4,25 @@ import '../../../../core/theme/app_theme.dart';
 import '../bloc/transactions_bloc.dart';
 import '../bloc/transactions_event.dart';
 import '../bloc/transactions_state.dart';
+import '../../domain/entities/transaction.dart';
 import '../widgets/transaction_tile.dart';
 
 /// Page displaying the transaction history.
 ///
 /// Loads transactions on first build and supports pull-to-refresh.
-class TransactionsPage extends StatelessWidget {
+class TransactionsPage extends StatefulWidget {
   const TransactionsPage({super.key});
+
+  @override
+  State<TransactionsPage> createState() => _TransactionsPageState();
+}
+
+class _TransactionsPageState extends State<TransactionsPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<TransactionsBloc>().add(const LoadTransactions());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +33,7 @@ class TransactionsPage extends StatelessWidget {
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
         builder: (context, state) {
           return switch (state) {
-            TransactionsInitial() => const _InitialView(),
-            TransactionsLoading() => const _LoadingView(),
+            TransactionsInitial() || TransactionsLoading() => const _LoadingView(),
             TransactionsLoaded(:final transactions) => transactions.isEmpty
                 ? const _EmptyView()
                 : _LoadedView(transactions: transactions),
@@ -31,18 +42,6 @@ class TransactionsPage extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-class _InitialView extends StatelessWidget {
-  const _InitialView();
-
-  @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<TransactionsBloc>().add(const LoadTransactions());
-    });
-    return const Center(child: CircularProgressIndicator());
   }
 }
 
@@ -132,7 +131,7 @@ class _ErrorView extends StatelessWidget {
 class _LoadedView extends StatelessWidget {
   const _LoadedView({required this.transactions});
 
-  final List transactions;
+  final List<Transaction> transactions;
 
   @override
   Widget build(BuildContext context) {

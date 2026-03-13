@@ -81,6 +81,7 @@ Future<void> initDependencies() async {
         getFunds: sl(),
         subscribeToFund: sl(),
         cancelSubscription: sl(),
+        transactionsBloc: sl(),
       ));
   sl.registerFactory(() => TransactionsBloc(
         getTransactionHistory: sl(),

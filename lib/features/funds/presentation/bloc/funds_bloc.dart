@@ -3,6 +3,8 @@ import '../../../../core/utils/result.dart';
 import '../../domain/use_cases/cancel_subscription.dart';
 import '../../domain/use_cases/get_funds.dart';
 import '../../domain/use_cases/subscribe_to_fund.dart';
+import '../../../transactions/presentation/bloc/transactions_bloc.dart';
+import '../../../transactions/presentation/bloc/transactions_event.dart';
 import 'funds_event.dart';
 import 'funds_state.dart';
 
@@ -16,6 +18,7 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
     required GetFunds getFunds,
     required SubscribeToFund subscribeToFund,
     required CancelSubscription cancelSubscription,
+    required this.transactionsBloc,
   })  : _getFunds = getFunds,
         _subscribeToFund = subscribeToFund,
         _cancelSubscription = cancelSubscription,
@@ -28,6 +31,7 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
   final GetFunds _getFunds;
   final SubscribeToFund _subscribeToFund;
   final CancelSubscription _cancelSubscription;
+  final TransactionsBloc transactionsBloc;
 
   double _currentBalance = 0;
 
@@ -68,6 +72,8 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
       case Success():
         // Reload all funds to get fresh state
         add(const LoadFunds());
+        // Reload transactions history
+        transactionsBloc.add(const LoadTransactions());
       case Failure(message: final msg):
         emit(FundsError(message: msg));
         // Reload to restore previous state after error
@@ -92,6 +98,8 @@ class FundsBloc extends Bloc<FundsEvent, FundsState> {
     switch (result) {
       case Success():
         add(const LoadFunds());
+        // Reload transactions history
+        transactionsBloc.add(const LoadTransactions());
       case Failure(message: final msg):
         emit(FundsError(message: msg));
         add(const LoadFunds());

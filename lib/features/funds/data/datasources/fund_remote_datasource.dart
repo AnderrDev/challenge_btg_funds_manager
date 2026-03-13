@@ -43,14 +43,14 @@ class FundRemoteDataSource {
 
   /// Returns current user balance from the API.
   Future<double> getBalance() async {
-    final response = await dio.get('${AppConstants.baseUrl}/user');
+    final response = await dio.get('${AppConstants.baseUrl}/users/1');
     return (response.data['balance'] as num).toDouble();
   }
 
   /// Updates user balance via PATCH.
   Future<void> updateBalance(double newBalance) async {
     await dio.patch(
-      '${AppConstants.baseUrl}/user',
+      '${AppConstants.baseUrl}/users/1',
       data: {'balance': newBalance},
     );
   }
