@@ -5,7 +5,7 @@ BTG Funds Manager es una aplicación móvil moderna y elegante diseñada para la
 ## 📱 Demo
 Aquí puedes ver la aplicación en funcionamiento:
 
-<video src="https://github.com/AnderrDev/challenge_btg_funds_manager/raw/main/assets/videos/demo.mp4"  width="320" controls>
+<video src="https://github.com/AnderrDev/challenge_btg_funds_manager/blob/main/assets/videos/demo.mp4?raw=true" width="320" controls>
   Tu navegador no soporta el tag de video.
 </video>
 
