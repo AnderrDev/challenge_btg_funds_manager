@@ -69,4 +69,3 @@ Para ejecutar los tests unitarios y de integración:
 flutter test
 ```
 
-Desarrollado como prueba técnica senior para **BTG Pactual**.
