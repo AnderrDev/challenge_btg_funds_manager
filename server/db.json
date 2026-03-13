@@ -31,7 +31,7 @@
       "name": "DEUDAPRIVADA",
       "minimumAmount": 50000,
       "category": "fic",
-      "isSubscribed": false,
+      "isSubscribed": true,
       "description": "Fondo de inversión colectiva enfocado en instrumentos de deuda privada con grado de inversión. Ofrece rendimientos estables con bajo riesgo crediticio.",
       "managedBy": "BTG Pactual Asset Management",
       "returns": 6.2,
@@ -66,7 +66,53 @@
       "createdAt": "2021-01-18"
     }
   ],
-  "transactions": [],
+  "transactions": [
+    {
+      "id": "1773430886978",
+      "fundId": 3,
+      "fundName": "DEUDAPRIVADA",
+      "type": "subscription",
+      "amount": 50000,
+      "date": "2026-03-13T14:41:26.978",
+      "notificationMethod": "sms"
+    },
+    {
+      "id": "1773430930101",
+      "fundId": 2,
+      "fundName": "FPV_BTG_PACTUAL_ECOPETROL",
+      "type": "subscription",
+      "amount": 125000,
+      "date": "2026-03-13T14:42:10.101",
+      "notificationMethod": "email"
+    },
+    {
+      "id": "1773430962830",
+      "fundId": 3,
+      "fundName": "DEUDAPRIVADA",
+      "type": "cancellation",
+      "amount": 50000,
+      "date": "2026-03-13T14:42:42.830",
+      "notificationMethod": null
+    },
+    {
+      "id": "1773430965330",
+      "fundId": 2,
+      "fundName": "FPV_BTG_PACTUAL_ECOPETROL",
+      "type": "cancellation",
+      "amount": 125000,
+      "date": "2026-03-13T14:42:45.330",
+      "notificationMethod": null
+    },
+    {
+      "id": "1773430973089",
+      "fundId": 3,
+      "fundName": "DEUDAPRIVADA",
+      "type": "subscription",
+      "amount": 50000,
+      "date": "2026-03-13T14:42:53.089",
+      "notificationMethod": "sms"
+    }
+  ],
   "user": {
     "id": 1,
     "balance": 500000

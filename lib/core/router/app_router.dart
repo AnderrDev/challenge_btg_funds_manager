@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/funds/presentation/pages/fund_detail_page.dart';
 import '../../features/funds/presentation/pages/funds_page.dart';
 import '../../features/transactions/presentation/pages/transactions_page.dart';
 
@@ -20,6 +21,16 @@ final GoRouter appRouter = GoRouter(
           pageBuilder: (context, state) => const NoTransitionPage(
             child: FundsPage(),
           ),
+          routes: [
+            GoRoute(
+              path: ':id',
+              name: 'fund_detail',
+              builder: (context, state) {
+                final id = int.parse(state.pathParameters['id']!);
+                return FundDetailPage(fundId: id);
+              },
+            ),
+          ],
         ),
         GoRoute(
           path: '/transactions',

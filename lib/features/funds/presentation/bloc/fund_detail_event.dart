@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/fund.dart';
 
 abstract class FundDetailEvent extends Equatable {
   const FundDetailEvent();

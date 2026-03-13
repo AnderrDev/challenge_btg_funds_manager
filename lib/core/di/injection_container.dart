@@ -10,6 +10,7 @@ import '../../features/funds/domain/use_cases/cancel_subscription.dart';
 import '../../features/funds/domain/use_cases/get_fund_detail.dart';
 import '../../features/funds/domain/use_cases/get_funds.dart';
 import '../../features/funds/domain/use_cases/subscribe_to_fund.dart';
+import '../../features/funds/presentation/bloc/fund_detail_bloc.dart';
 import '../../features/funds/presentation/bloc/funds_bloc.dart';
 import '../../features/transactions/data/datasources/transaction_local_cache.dart';
 import '../../features/transactions/data/datasources/transaction_remote_datasource.dart';
@@ -73,6 +74,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => GetTransactionHistory(repository: sl()));
 
   // ── BLoCs ───────────────────────────────────────────────────────
+  sl.registerFactory(() => FundDetailBloc(
+        getFundDetail: sl(),
+      ));
   sl.registerFactory(() => FundsBloc(
         getFunds: sl(),
         subscribeToFund: sl(),
