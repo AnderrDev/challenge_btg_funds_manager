@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../theme/app_theme.dart';
 
 /// Centralized text field for forms with consistent styling.
@@ -12,6 +13,8 @@ class BTGTextField extends StatelessWidget {
     this.keyboardType,
     this.autofillHints,
     this.hintText,
+    this.inputFormatters,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
   });
 
   final TextEditingController controller;
@@ -21,11 +24,15 @@ class BTGTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Iterable<String>? autofillHints;
   final String? hintText;
+  final List<TextInputFormatter>? inputFormatters;
+  final AutovalidateMode autovalidateMode;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      inputFormatters: inputFormatters,
+      autovalidateMode: autovalidateMode,
       decoration: InputDecoration(
         labelText: label,
         hintText: hintText,

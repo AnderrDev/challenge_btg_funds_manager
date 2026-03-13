@@ -95,10 +95,13 @@ class FundCard extends StatelessWidget {
                     color: Colors.grey.shade600,
                   ),
                   const SizedBox(width: 6),
-                  Text(
-                    'Monto mínimo: ${formatCOP(fund.minimumAmount)}',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey.shade700,
+                  Expanded(
+                    child: Text(
+                      'Monto mínimo: ${formatCOP(fund.minimumAmount)}',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.grey.shade700,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],

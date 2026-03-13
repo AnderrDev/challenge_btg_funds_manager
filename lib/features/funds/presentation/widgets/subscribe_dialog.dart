@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/btg_text_field.dart';
+import '../../../../core/utils/validators.dart';
 import '../../../transactions/domain/entities/transaction.dart';
 
 /// Dialog for selecting a notification method and providing contact info when subscribing.
@@ -67,19 +69,6 @@ class _SubscribeDialogState extends State<SubscribeDialog> {
       }
       Navigator.of(context).pop(_selectedMethod);
     }
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) return 'Ingrese su email';
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) return 'Email inválido';
-    return null;
-  }
-
-  String? _validatePhone(String? value) {
-    if (value == null || value.isEmpty) return 'Ingrese su teléfono';
-    if (value.length < 10) return 'Mínimo 10 dígitos';
-    return null;
   }
 
   @override
@@ -156,7 +145,7 @@ class _SubscribeDialogState extends State<SubscribeDialog> {
                           label: 'Correo electrónico',
                           icon: Icons.alternate_email_rounded,
                           keyboardType: TextInputType.emailAddress,
-                          validator: _validateEmail,
+                          validator: BTGValidators.validateEmail,
                           autofillHints: const [AutofillHints.email],
                         )
                       : BTGTextField(
@@ -165,7 +154,8 @@ class _SubscribeDialogState extends State<SubscribeDialog> {
                           label: 'Número de celular',
                           icon: Icons.phone_android_rounded,
                           keyboardType: TextInputType.phone,
-                          validator: _validatePhone,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                          validator: BTGValidators.validatePhone,
                           autofillHints: const [AutofillHints.telephoneNumber],
                         ),
                 ),
