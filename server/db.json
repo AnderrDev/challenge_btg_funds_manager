@@ -5,7 +5,7 @@
       "name": "FPV_BTG_PACTUAL_RECAUDADORA",
       "minimumAmount": 75000,
       "category": "fpv",
-      "isSubscribed": true,
+      "isSubscribed": false,
       "description": "Fondo de pensiones voluntarias orientado a la recaudación eficiente de aportes, con estrategia diversificada en renta fija y variable colombiana.",
       "managedBy": "BTG Pactual Colombia",
       "returns": 8.5,
@@ -18,7 +18,7 @@
       "name": "FPV_BTG_PACTUAL_ECOPETROL",
       "minimumAmount": 125000,
       "category": "fpv",
-      "isSubscribed": true,
+      "isSubscribed": false,
       "description": "Fondo de pensiones voluntarias con exposición significativa a Ecopetrol y el sector energético colombiano. Ideal para inversores con perfil de riesgo moderado-alto.",
       "managedBy": "BTG Pactual Colombia",
       "returns": 12.3,
@@ -44,7 +44,7 @@
       "name": "FDO-ACCIONES",
       "minimumAmount": 250000,
       "category": "fic",
-      "isSubscribed": true,
+      "isSubscribed": false,
       "description": "Fondo de inversión colectiva especializado en acciones de alta capitalización del mercado colombiano y latinoamericano. Mayor potencial de retorno con mayor volatilidad.",
       "managedBy": "BTG Pactual Asset Management",
       "returns": 15.8,
@@ -399,12 +399,39 @@
       "amount": 50000,
       "date": "2026-03-13T15:52:46.860",
       "notificationMethod": null
+    },
+    {
+      "id": "1773437946600",
+      "fundId": 1,
+      "fundName": "FPV_BTG_PACTUAL_RECAUDADORA",
+      "type": "cancellation",
+      "amount": 75000,
+      "date": "2026-03-13T16:39:06.600",
+      "notificationMethod": null
+    },
+    {
+      "id": "1773437947559",
+      "fundId": 2,
+      "fundName": "FPV_BTG_PACTUAL_ECOPETROL",
+      "type": "cancellation",
+      "amount": 125000,
+      "date": "2026-03-13T16:39:07.559",
+      "notificationMethod": null
+    },
+    {
+      "id": "1773437948963",
+      "fundId": 4,
+      "fundName": "FDO-ACCIONES",
+      "type": "cancellation",
+      "amount": 250000,
+      "date": "2026-03-13T16:39:08.963",
+      "notificationMethod": null
     }
   ],
   "users": [
     {
       "id": 1,
-      "balance": 50000
+      "balance": 500000
     }
   ]
 }

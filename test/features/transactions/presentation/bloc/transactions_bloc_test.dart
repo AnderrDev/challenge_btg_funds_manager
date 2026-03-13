@@ -45,7 +45,10 @@ void main() {
       act: (bloc) => bloc.add(const LoadTransactions()),
       expect: () => [
         const TransactionsLoading(),
-        TransactionsLoaded(transactions: tTransactions),
+        TransactionsLoaded(
+          transactions: tTransactions,
+          allTransactions: tTransactions,
+        ),
       ],
       verify: (_) {
         verify(() => mockGetTransactionHistory()).called(1);

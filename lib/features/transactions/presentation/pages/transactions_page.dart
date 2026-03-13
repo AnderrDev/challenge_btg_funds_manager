@@ -5,9 +5,9 @@ import '../../../../core/widgets/btg_error_view.dart';
 import '../bloc/transactions_bloc.dart';
 import '../bloc/transactions_event.dart';
 import '../bloc/transactions_state.dart';
-import '../../domain/entities/transaction.dart';
 import '../widgets/transaction_tile.dart';
 import '../widgets/transaction_tile_skeleton.dart';
+import '../widgets/transaction_filters.dart';
 
 /// Page displaying the transaction history.
 class TransactionsPage extends StatefulWidget {
@@ -34,13 +34,13 @@ class _TransactionsPageState extends State<TransactionsPage> {
         builder: (context, state) {
           return switch (state) {
             TransactionsInitial() || TransactionsLoading() => const _LoadingView(),
-            TransactionsLoaded(:final transactions) => transactions.isEmpty
+            TransactionsLoaded() => state.allTransactions.isEmpty
                 ? const BTGEmptyState(
                     title: 'Sin transacciones',
                     message: 'Las suscripciones y cancelaciones aparecerán aquí.',
                     icon: Icons.history_rounded,
                   )
-                : _LoadedView(transactions: transactions),
+                : _LoadedView(state: state),
             TransactionsError(:final message) => BTGErrorView(
                 message: message,
                 onRetry: () => context.read<TransactionsBloc>().add(const LoadTransactions()),
@@ -66,23 +66,47 @@ class _LoadingView extends StatelessWidget {
 }
 
 class _LoadedView extends StatelessWidget {
-  const _LoadedView({required this.transactions});
+  const _LoadedView({required this.state});
 
-  final List<Transaction> transactions;
+  final TransactionsLoaded state;
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        context.read<TransactionsBloc>().add(const LoadTransactions());
-      },
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-        itemCount: transactions.length,
-        itemBuilder: (context, index) => TransactionTile(
-          transaction: transactions[index],
+    final transactions = state.transactions;
+
+    return Column(
+      children: [
+        TransactionFilters(
+          query: state.query,
+          selectedType: state.type,
         ),
-      ),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: () async {
+              context.read<TransactionsBloc>().add(const LoadTransactions());
+            },
+            child: transactions.isEmpty
+                ? const SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 60),
+                      child: BTGEmptyState(
+                        title: 'Sin resultados',
+                        message: 'No encontramos transacciones para tu búsqueda.',
+                        icon: Icons.search_off_rounded,
+                      ),
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                    itemCount: transactions.length,
+                    itemBuilder: (context, index) => TransactionTile(
+                      transaction: transactions[index],
+                    ),
+                  ),
+          ),
+        ),
+      ],
     );
   }
 }
