@@ -1,10 +1,8 @@
-# BTG Funds Manager 💼
+# BTG Funds Manager 
 
 BTG Funds Manager es una aplicación móvil moderna y elegante diseñada para la gestión de fondos de inversión (FIC y FPV). Permite a los usuarios visualizar su saldo, explorar fondos disponibles, suscribirse a nuevos productos y gestionar sus suscripciones activas.
 
-![App Screenshot](https://raw.githubusercontent.com/flutter/website/main/src/assets/images/docs/ui-overview/hero-mobile.png)
-
-## 🚀 Características Principales
+## Características Principales
 
 - **Dashboard de Inversión**: Visualización clara del saldo disponible y fondos destacados.
 - **Exploración de Fondos**: Listado detallado de fondos FIC y FPV con niveles de riesgo y rentabilidad.
@@ -13,7 +11,7 @@ BTG Funds Manager es una aplicación móvil moderna y elegante diseñada para la
 - **Persistencia de Datos**: Los datos se mantienen seguros localmente usando `shared_preferences`.
 - **Diseño Premium**: UI refinada con animaciones Hero y feedback visual instantáneo.
 
-## 🛠️ Arquitectura y Tecnologías
+## Arquitectura y Tecnologías
 
 El proyecto sigue los principios de **Clean Architecture** y **SOLID** para garantizar escalabilidad y mantenibilidad.
 
@@ -31,13 +29,13 @@ El proyecto sigue los principios de **Clean Architecture** y **SOLID** para gara
 - **GetIt** (Inyección de dependencias)
 - **Mocktail** (Testing)
 
-## 📦 Requisitos Previos
+## Requisitos Previos
 
 - [Flutter SDK](https://docs.flutter.dev/get-started/install) (>=3.6.0)
 - [Node.js](https://nodejs.org/) (Para el servidor bockend de prueba)
 - [Git](https://git-scm.com/)
 
-## 🏃 Guía de Inicio Rápido
+## Guía de Inicio Rápido
 
 ### 1. Clonar el repositorio
 ```bash
@@ -65,11 +63,10 @@ flutter pub get
 flutter run
 ```
 
-## 🧪 Pruebas
+## Pruebas
 Para ejecutar los tests unitarios y de integración:
 ```bash
 flutter test
 ```
 
----
 Desarrollado como prueba técnica senior para **BTG Pactual**.
