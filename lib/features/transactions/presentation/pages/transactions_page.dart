@@ -32,20 +32,22 @@ class _TransactionsPageState extends State<TransactionsPage> {
       ),
       body: BlocBuilder<TransactionsBloc, TransactionsState>(
         builder: (context, state) {
-          return switch (state) {
-            TransactionsInitial() || TransactionsLoading() => const _LoadingView(),
-            TransactionsLoaded() => state.allTransactions.isEmpty
-                ? const BTGEmptyState(
-                    title: 'Sin transacciones',
-                    message: 'Las suscripciones y cancelaciones aparecerán aquí.',
-                    icon: Icons.history_rounded,
-                  )
-                : _LoadedView(state: state),
-            TransactionsError(:final message) => BTGErrorView(
-                message: message,
-                onRetry: () => context.read<TransactionsBloc>().add(const LoadTransactions()),
-              ),
-          };
+          return SafeArea(
+            child: switch (state) {
+              TransactionsInitial() || TransactionsLoading() => const _LoadingView(),
+              TransactionsLoaded() => state.allTransactions.isEmpty
+                  ? const BTGEmptyState(
+                      title: 'Sin transacciones',
+                      message: 'Las suscripciones y cancelaciones aparecerán aquí.',
+                      icon: Icons.history_rounded,
+                    )
+                  : _LoadedView(state: state),
+              TransactionsError(:final message) => BTGErrorView(
+                  message: message,
+                  onRetry: () => context.read<TransactionsBloc>().add(const LoadTransactions()),
+                ),
+            },
+          );
         },
       ),
     );

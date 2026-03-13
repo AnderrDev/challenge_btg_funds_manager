@@ -36,58 +36,60 @@ class FundDetailPage extends StatelessWidget {
             onPressed: () => context.pop(),
           ),
         ),
-        body: BlocBuilder<FundDetailBloc, FundDetailState>(
-          builder: (context, state) {
-            if (state is FundDetailLoading) {
-              return const FundDetailSkeleton();
-            }
+        body: SafeArea(
+          child: BlocBuilder<FundDetailBloc, FundDetailState>(
+            builder: (context, state) {
+              if (state is FundDetailLoading) {
+                return const FundDetailSkeleton();
+              }
 
-            if (state is FundDetailError) {
-              return BTGErrorView(
-                message: state.message,
-                onRetry: () => context.read<FundDetailBloc>().add(LoadFundDetail(fundId)),
-              );
-            }
+              if (state is FundDetailError) {
+                return BTGErrorView(
+                  message: state.message,
+                  onRetry: () => context.read<FundDetailBloc>().add(LoadFundDetail(fundId)),
+                );
+              }
 
-            if (state is FundDetailLoaded) {
-              final fund = state.fund;
-              return SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: _DetailHeader(fund: fund),
-                    ),
-                    const BTGSectionTitle(title: 'Sobre este fondo', padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                      child: Text(
-                        fund.description,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              height: 1.6,
-                              color: Colors.grey.shade700,
-                            ),
+              if (state is FundDetailLoaded) {
+                final fund = state.fund;
+                return SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: _DetailHeader(fund: fund),
                       ),
-                    ),
-                    const BTGSectionTitle(title: 'Información clave', padding: EdgeInsets.fromLTRB(20, 24, 20, 12)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: _DetailInfoGrid(fund: fund),
-                    ),
-                    const SizedBox(height: 40),
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: _ActionSection(fund: fund),
-                    ),
-                  ],
-                ),
-              );
-            }
+                      const BTGSectionTitle(title: 'Sobre este fondo', padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        child: Text(
+                          fund.description,
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                height: 1.6,
+                                color: Colors.grey.shade700,
+                              ),
+                        ),
+                      ),
+                      const BTGSectionTitle(title: 'Información clave', padding: EdgeInsets.fromLTRB(20, 24, 20, 12)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: _DetailInfoGrid(fund: fund),
+                      ),
+                      const SizedBox(height: 40),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: _ActionSection(fund: fund),
+                      ),
+                    ],
+                  ),
+                );
+              }
 
-            return const SizedBox.shrink();
-          },
+              return const SizedBox.shrink();
+            },
+          ),
         ),
       ),
     );

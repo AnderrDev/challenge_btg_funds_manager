@@ -44,16 +44,18 @@ class FundsPage extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return switch (state) {
-            FundsInitial() => const _InitialView(),
-            FundsLoading() => const _LoadingView(),
-            FundsLoaded(:final funds, :final balance) =>
-              _LoadedView(funds: funds, balance: balance),
-            FundsError(:final message) => BTGErrorView(
-                message: message,
-                onRetry: () => context.read<FundsBloc>().add(const LoadFunds()),
-              ),
-          };
+          return SafeArea(
+            child: switch (state) {
+              FundsInitial() => const _InitialView(),
+              FundsLoading() => const _LoadingView(),
+              FundsLoaded(:final funds, :final balance) =>
+                _LoadedView(funds: funds, balance: balance),
+              FundsError(:final message) => BTGErrorView(
+                  message: message,
+                  onRetry: () => context.read<FundsBloc>().add(const LoadFunds()),
+                ),
+            },
+          );
         },
       ),
     );
