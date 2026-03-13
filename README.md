@@ -9,7 +9,7 @@ Aquí puedes ver la aplicación en funcionamiento:
   Tu navegador no soporta el tag de video.
 </video>
 
-> **Nota:** Si no ves el video, puedes encontrarlo en la carpeta [assets/videos](assets/videos/demo.mp4).
+> **Nota:** Si no ves el video, puedes encontrarlo aqui https://drive.google.com/file/d/1072ycpD4-a42ZNLML06pvNkoQORSGA7l/view
 
 ## Características Principales
 
